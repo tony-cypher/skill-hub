@@ -1,4 +1,5 @@
 import User from "../models/user.model.js";
+import Detail from "../models/details.model.js";
 import bcrypt from "bcryptjs";
 import { generateTokenAndSetCookie } from "../lib/utils/generateToken.js";
 
@@ -42,6 +43,11 @@ export const signup = async (req, res) => {
       generateTokenAndSetCookie(newUser._id, res);
 
       await newUser.save();
+
+      if (newUser.type === "artisan") {
+        var details = new Detail({ user: newUser._id });
+        await details.save();
+      }
 
       res.status(201).json({
         _id: newUser._id,
