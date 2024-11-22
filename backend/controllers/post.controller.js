@@ -140,4 +140,61 @@ export const workedFor = async (req, res) => {
   }
 };
 
-export const likeUnlikePost = async (req, res) => {};
+export const likeUnlikePost = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const { id: postId } = req.params;
+
+    const post = await Post.findById(postId);
+
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+
+    // gets the post owner
+    const postUser = await User.findById(post.user);
+
+    // checks if req.user is a customer
+    const isUserACustomer = postUser.workedFor.includes(userId);
+
+    if (!isUserACustomer) {
+      return res.status(401).json({ message: "Only customers can like post" });
+    }
+
+    // checks if the req.user id is in the post.likes array
+    const userLikedPost = post.likes.includes(userId);
+
+    if (userLikedPost) {
+      // removes the req.user's id from the post.likes array if it exists
+      await Post.updateOne({ _id: postId }, { $pull: { likes: userId } });
+
+      // removes the post id from user's liked posts array
+      await User.updateOne({ _id: userId }, { $pull: { likedPosts: postId } });
+
+      const updatedLikes = post.likes.filter((id) => {
+        id.toString() !== userId.toString();
+      });
+      res.status(200).json(updatedLikes);
+    } else {
+      // adds the req.user's id in the post.likes array if not exists
+      post.likes.push(userId);
+
+      // adds post's id to the user's liked post array
+      await User.updateOne({ _id: userId }, { $push: { likedPosts: postId } });
+
+      // saves the post
+      await post.save();
+
+      // creates a new like notification
+
+      // saves the notification
+
+      // returns a success message
+      const updatedLikes = post.likes;
+      res.status(200).json(updatedLikes);
+    }
+  } catch (error) {
+    console.log("Error in LikeUnlikePost controller: ", error.message);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
