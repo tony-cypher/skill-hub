@@ -41,6 +41,13 @@ const userSchema = new mongoose.Schema(
         default: [],
       },
     ],
+    workedFor: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        default: [],
+      },
+    ],
   },
   { timestamps: true }
 );
