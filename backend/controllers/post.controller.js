@@ -198,3 +198,52 @@ export const likeUnlikePost = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+export const commentOnPost = async (req, res) => {
+  try {
+    // gets the text, post id and user id
+    const { text } = req.body;
+    const postId = req.params.id;
+    const userId = req.user._id;
+
+    // checks if the text is not undefined
+    if (!text) {
+      return res.status(400).json({ error: "Text field is required" });
+    }
+
+    // gets the post by it's id
+    const post = await Post.findById(postId);
+
+    // checks if the post exists
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+
+    // gets the post owner
+    const postUser = await User.findById(post.user);
+
+    // checks if req.user is a customer
+    const isUserACustomer = postUser.workedFor.includes(userId);
+
+    if (!isUserACustomer) {
+      return res
+        .status(401)
+        .json({ message: "Only customers can comment on post" });
+    }
+
+    // creates the comment
+    const comment = { user: userId, text };
+
+    // Adds the comment to the post array
+    post.comments.push(comment);
+
+    // saves the post
+    await post.save();
+
+    // return the comment as response
+    res.status(200).json(post);
+  } catch (error) {
+    console.log("Error in commentOnPost controller: ", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
