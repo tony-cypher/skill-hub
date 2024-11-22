@@ -94,3 +94,50 @@ export const getUserPosts = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+export const workedFor = async (req, res) => {
+  try {
+    const clientId = req.params.id;
+    const userId = req.user._id;
+
+    const client = await User.findById(clientId);
+    const user = await User.findById(userId);
+
+    if (!client) {
+      return res.status(404).json({ error: "Client not found" });
+    }
+
+    if (user.type === "client") {
+      return res
+        .status(401)
+        .json({ message: "Only Artisans can work for a client." });
+    }
+
+    if (userId.toString() === clientId) {
+      return res.status(401).json({ error: "You can't work for yourself" });
+    }
+
+    const hasWorkedFor = user.workedFor.includes(clientId);
+
+    if (hasWorkedFor) {
+      return res
+        .status(409)
+        .json({ message: "This client already a customer" });
+    } else {
+      user.workedFor.push(clientId);
+      await user.save();
+
+      // sends notification to client to like or comment on post
+
+      // save notification
+
+      const updatedWorkedFor = user.workedFor;
+      res.status(200).json(updatedWorkedFor);
+    }
+  } catch (error) {
+    console.log("Error in workedFor controller: ", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+export const likeUnlikePost = async (req, res) => {};
