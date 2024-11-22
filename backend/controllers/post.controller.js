@@ -1,6 +1,6 @@
 import Post from "../models/post.model.js";
 import User from "../models/user.model.js";
-// import Notification from "../models/notification.model.js";
+import Notification from "../models/notification.model.js";
 import { v2 as cloudinary } from "cloudinary";
 
 export const createPost = async (req, res) => {
@@ -186,8 +186,14 @@ export const likeUnlikePost = async (req, res) => {
       await post.save();
 
       // creates a new like notification
+      const notification = new Notification({
+        from: userId,
+        to: post.user,
+        type: "like",
+      });
 
       // saves the notification
+      await notification.save();
 
       // returns a success message
       const updatedLikes = post.likes;
@@ -239,6 +245,16 @@ export const commentOnPost = async (req, res) => {
 
     // saves the post
     await post.save();
+
+    // creates a new like notification
+    const notification = new Notification({
+      from: userId,
+      to: post.user,
+      type: "comment",
+    });
+
+    // saves the notification
+    await notification.save();
 
     // return the comment as response
     res.status(200).json(post);
