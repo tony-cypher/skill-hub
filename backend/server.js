@@ -1,5 +1,8 @@
 import express from "express";
 import dotenv from "dotenv";
+import authRoutes from "./routes/auth.routes.js";
+import { connectDB } from "./config/db.js";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
@@ -14,12 +17,12 @@ app.get("/", (req, res) => {
   res.send("Server is ready");
 });
 
-// app.use("/api/auth", authRoutes);
+app.use("/api/auth", authRoutes);
 // app.use("/api/users", userRoutes);
 // app.use("/api/posts", postRoutes);
 // app.use("/api/notifications", notificationRoutes);
 
 app.listen(PORT, () => {
-  //connectDB();
+  connectDB();
   console.log("Server is running on port 5000");
 });
