@@ -7,9 +7,41 @@ import NotificationPage from "./pages/notifications/NotificationPage";
 import ProfilePage from "./pages/profile/ProfilePage";
 import MessagePage from "./pages/messages/MessagePage";
 import { Toaster } from "react-hot-toast";
+import LoadingSpinner from "./components/common/LoadingSpinner";
+import { useQuery } from "@tanstack/react-query";
 
 function App() {
-  const authUser = true;
+  const { data: authUser, isLoading } = useQuery({
+    // queryKey is used to give unique name to queries and refer to them later
+    queryKey: ["authUser"],
+    queryFn: async () => {
+      try {
+        const res = await fetch("/api/auth/me");
+        const data = res.json();
+
+        if (data.error) {
+          console.log("data error", data);
+        }
+
+        if (!res.ok) {
+          throw new Error("Something went wrong!");
+        }
+
+        return data;
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
+    retry: false,
+  });
+
+  if (isLoading) {
+    return (
+      <div className="h-screen flex justify-center items-center">
+        <LoadingSpinner size="lg" />
+      </div>
+    );
+  }
   return (
     <div className="flex max-w-6xl mx-auto">
       {authUser && <Sidebar />}
