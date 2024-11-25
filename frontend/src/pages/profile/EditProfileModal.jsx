@@ -18,7 +18,7 @@ const EditProfileModal = () => {
   return (
     <>
       <button
-        className="btn btn-outline rounded-full btn-sm"
+        className="btn bg-indigo-400 hover:bg-indigo-300 rounded-full btn-sm text-white"
         onClick={() =>
           document.getElementById("edit_profile_modal").showModal()
         }
@@ -96,7 +96,7 @@ const EditProfileModal = () => {
               name="link"
               onChange={handleInputChange}
             />
-            <button className="btn btn-primary rounded-full btn-sm text-white">
+            <button className="btn bg-indigo-400 hover:bg-indigo-300 rounded-full btn-sm text-white">
               Update
             </button>
           </form>

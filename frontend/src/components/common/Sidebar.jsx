@@ -1,14 +1,25 @@
+import { useState } from "react";
 import { MdHomeFilled } from "react-icons/md";
 import { IoNotifications } from "react-icons/io5";
 import { FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { BiLogOut } from "react-icons/bi";
+import { FiSun } from "react-icons/fi";
+import { IoMoonOutline } from "react-icons/io5";
 
 const Sidebar = () => {
   const data = {
     fullName: "John Doe",
     username: "johndoe",
     profileImg: "/avatars/boy1.png",
+  };
+
+  // Function to toggle the theme
+  const [theme, setTheme] = useState("");
+  const handleToggle = () => {
+    const newTheme = theme === "black" ? "light" : "black"; // Switch themes
+    setTheme(newTheme); // Update state
+    document.documentElement.setAttribute("data-theme", newTheme); // Update HTML attribute
   };
 
   return (
@@ -46,6 +57,19 @@ const Sidebar = () => {
               <FaUser className="w-6 h-6" />
               <span className="text-lg hidden md:block">Profile</span>
             </Link>
+          </li>
+          <li className="flex justify-center md:justify-start">
+            <div className="flex gap-3 items-center transition-all rounded-full duration-300 py-2 pl-2 pr-4 max-w-fit cursor-pointer">
+              <label className="swap swap-rotate">
+                <input
+                  type="checkbox"
+                  onChange={handleToggle}
+                  checked={theme === "black"}
+                />
+                <IoMoonOutline className="swap-off h-10 w-10 fill-current" />
+                <FiSun className="swap-on h-10 w-10 fill-current" />
+              </label>
+            </div>
           </li>
         </ul>
         {data && (
