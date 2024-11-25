@@ -5,6 +5,7 @@ import LoginPage from "./pages/auth/login/LoginPage";
 import Sidebar from "./components/common/Sidebar";
 import NotificationPage from "./pages/notifications/NotificationPage";
 import ProfilePage from "./pages/profile/ProfilePage";
+import MessagePage from "./pages/messages/MessagePage";
 import { Toaster } from "react-hot-toast";
 
 function App() {
@@ -32,6 +33,10 @@ function App() {
         <Route
           path="/profile/:username"
           element={authUser ? <ProfilePage /> : <Navigate to="/login" />}
+        ></Route>
+        <Route
+          path="/messages"
+          element={authUser ? <MessagePage /> : <Navigate to="/login" />}
         ></Route>
       </Routes>
       <Toaster />

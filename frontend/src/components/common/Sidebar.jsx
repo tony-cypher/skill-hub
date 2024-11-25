@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { BiLogOut } from "react-icons/bi";
 import { FiSun } from "react-icons/fi";
 import { IoMoonOutline } from "react-icons/io5";
+import { FiMessageSquare } from "react-icons/fi";
 
 const Sidebar = () => {
   const data = {
@@ -59,6 +60,16 @@ const Sidebar = () => {
             </Link>
           </li>
           <li className="flex justify-center md:justify-start">
+            <Link
+              to="/messages"
+              className="flex gap-3 items-center hover:bg-indigo-300 hover:text-white transition-all rounded-full duration-300 py-2 pl-2 pr-4 max-w-fit cursor-pointer"
+            >
+              <FiMessageSquare className="w-6 h-6" />
+              <span className="text-lg hidden md:block">Messages</span>
+            </Link>
+          </li>
+
+          <li className="flex justify-center md:justify-start">
             <div className="flex gap-3 items-center transition-all rounded-full duration-300 py-2 pl-2 pr-4 max-w-fit cursor-pointer">
               <label className="swap swap-rotate">
                 <input
@@ -67,7 +78,7 @@ const Sidebar = () => {
                   checked={theme === "black"}
                 />
                 <IoMoonOutline className="swap-off h-10 w-10 fill-current" />
-                <FiSun className="swap-on h-10 w-10 fill-current" />
+                <FiSun className="swap-on h-8 w-8 fill-current" />
               </label>
             </div>
           </li>
