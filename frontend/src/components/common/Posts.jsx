@@ -2,9 +2,26 @@ import Post from "./Post";
 import PostSkeleton from "../skeletons/PostSkeleton";
 import { POSTS } from "../../utils/db/dummy";
 import { FaSearch } from "react-icons/fa";
+import { useQuery } from "@tanstack/react-query";
 
 const Posts = () => {
-  const isLoading = false;
+  const { data: posts, isLoading } = useQuery({
+    queryKey: ["posts"],
+    queryFn: async () => {
+      try {
+        const res = await fetch("/api/posts/all");
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.error || "Something went wrong");
+        }
+
+        return data;
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
+  });
 
   return (
     <>
@@ -30,7 +47,7 @@ const Posts = () => {
               <FaSearch />
             </label>
           </div>
-          {POSTS.map((post) => (
+          {posts.map((post) => (
             <Post key={post._id} post={post} />
           ))}
         </div>
