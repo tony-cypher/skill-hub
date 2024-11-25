@@ -130,7 +130,7 @@ const Post = ({ post }) => {
                       value={comment}
                       onChange={(e) => setComment(e.target.value)}
                     />
-                    <button className="btn btn-info rounded-full btn-sm text-white px-4">
+                    <button className="btn bg-indigo-400 hover:bg-indigo-300 rounded-full btn-sm text-white px-4">
                       {isCommenting ? (
                         <span className="loading loading-spinner loading-md"></span>
                       ) : (
