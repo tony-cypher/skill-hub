@@ -15,7 +15,8 @@ export const POSTS = [
         text: "Nice Tutorial",
         user: {
           username: "janedoe",
-          profileImg: "/avatars/girl1.png",
+          profileImg:
+            "https://res.cloudinary.com/dgk3ckyn1/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1731657958/cld-sample.jpg",
           fullName: "Jane Doe",
         },
       },
@@ -37,7 +38,8 @@ export const POSTS = [
         text: "Nice Tutorial",
         user: {
           username: "janedoe",
-          profileImg: "/avatars/girl2.png",
+          profileImg:
+            "https://res.cloudinary.com/dgk3ckyn1/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1731657958/cld-sample.jpg",
           fullName: "Jane Doe",
         },
       },
@@ -80,7 +82,8 @@ export const POSTS = [
         text: "Nice Tutorial",
         user: {
           username: "janedoe",
-          profileImg: "/avatars/girl3.png",
+          profileImg:
+            "https://res.cloudinary.com/dgk3ckyn1/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1731657958/cld-sample.jpg",
           fullName: "Jane Doe",
         },
       },
