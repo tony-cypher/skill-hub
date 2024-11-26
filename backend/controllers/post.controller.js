@@ -151,16 +151,6 @@ export const likeUnlikePost = async (req, res) => {
       return res.status(404).json({ error: "Post not found" });
     }
 
-    // gets the post owner
-    const postUser = await User.findById(post.user);
-
-    // checks if req.user is a customer
-    const isUserACustomer = postUser.workedFor.includes(userId);
-
-    if (!isUserACustomer) {
-      return res.status(401).json({ message: "Only customers can like post" });
-    }
-
     // checks if the req.user id is in the post.likes array
     const userLikedPost = post.likes.includes(userId);
 
@@ -171,10 +161,11 @@ export const likeUnlikePost = async (req, res) => {
       // removes the post id from user's liked posts array
       await User.updateOne({ _id: userId }, { $pull: { likedPosts: postId } });
 
-      const updatedLikes = post.likes.filter((id) => {
-        id.toString() !== userId.toString();
-      });
-      res.status(200).json(updatedLikes);
+      const updatedLikes = post.likes.filter(
+        (id) => id.toString() !== userId.toString()
+      );
+
+      return res.status(200).json(updatedLikes);
     } else {
       // adds the req.user's id in the post.likes array if not exists
       post.likes.push(userId);
@@ -229,13 +220,13 @@ export const commentOnPost = async (req, res) => {
     const postUser = await User.findById(post.user);
 
     // checks if req.user is a customer
-    const isUserACustomer = postUser.workedFor.includes(userId);
+    // const isUserACustomer = postUser.workedFor.includes(userId);
 
-    if (!isUserACustomer) {
-      return res
-        .status(401)
-        .json({ message: "Only customers can comment on post" });
-    }
+    // if (!isUserACustomer) {
+    //   return res
+    //     .status(401)
+    //     .json({ message: "Only customers can comment on post" });
+    // }
 
     // creates the comment
     const comment = { user: userId, text };
@@ -257,7 +248,7 @@ export const commentOnPost = async (req, res) => {
     await notification.save();
 
     // return the comment as response
-    res.status(200).json(post);
+    return res.status(200).json(post);
   } catch (error) {
     console.log("Error in commentOnPost controller: ", error);
     res.status(500).json({ error: "Internal server error" });
