@@ -52,7 +52,6 @@ const Sidebar = () => {
         <ul className="flex flex-col gap-3 mt-4">
           <li className="justify-center md:justify-start">
             <h1 className="ml-3 text-2xl font-bold">SKILL HUB</h1>
-            {/* <h1 className="text-lg">HUB</h1> */}
           </li>
           <li className="flex justify-center md:justify-start mt-5">
             <Link
