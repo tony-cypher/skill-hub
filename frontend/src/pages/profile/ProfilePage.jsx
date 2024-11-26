@@ -4,8 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import Posts from "../../components/common/Posts";
 import ProfileHeaderSkeleton from "../../components/skeletons/ProfileHeaderSkeleton";
 import EditProfileModal from "./EditProfileModal";
-
-import { POSTS } from "../../utils/db/dummy";
+import useUpdateUserProfile from "../../hooks/useUpdateUserProfile";
 
 import { FaArrowLeft } from "react-icons/fa6";
 import { FaLink } from "react-icons/fa";
@@ -45,6 +44,7 @@ const ProfilePage = () => {
   });
 
   const isMyProfile = authUser._id === user?._id;
+  const { updateProfile, isUpdatingProfile } = useUpdateUserProfile();
 
   useEffect(() => {
     refetch();
@@ -78,9 +78,6 @@ const ProfilePage = () => {
                 </Link>
                 <div className="flex flex-col">
                   <p className="font-bold text-lg">{user?.fullname}</p>
-                  <span className="text-sm text-slate-500">
-                    {POSTS?.length} posts
-                  </span>
                 </div>
               </div>
               {/* COVER IMG */}
@@ -114,20 +111,15 @@ const ProfilePage = () => {
               </div>
               <div className="flex justify-end px-4 mt-5">
                 {isMyProfile && <EditProfileModal />}
-                {!isMyProfile && (
-                  <button
-                    className="btn btn-outline rounded-full btn-sm"
-                    onClick={() => alert("Followed successfully")}
-                  >
-                    Follow
-                  </button>
-                )}
                 {profileImg && (
                   <button
-                    className="btn btn-primary rounded-full btn-sm text-white px-4 ml-2"
-                    onClick={() => alert("Profile updated successfully")}
+                    className="btn bg-indigo-400 hover:bg-indigo-300 rounded-full btn-sm text-white px-4 ml-2"
+                    onClick={async () => {
+                      await updateProfile({ profileImg });
+                      setProfileImg(null);
+                    }}
                   >
-                    Update
+                    {isUpdatingProfile ? "Updating..." : "Update"}
                   </button>
                 )}
               </div>

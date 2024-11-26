@@ -113,7 +113,12 @@ const Sidebar = () => {
           >
             <div className="avatar hidden md:inline-flex">
               <div className="w-8 rounded-full">
-                <img src="https://res.cloudinary.com/dgk3ckyn1/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1731657958/cld-sample.jpg" />
+                <img
+                  src={
+                    authUser.profileImg ||
+                    "https://i.pinimg.com/736x/ff/5f/78/ff5f78476f0edf5b1bf7840f84342ebd.jpg"
+                  }
+                />
               </div>
             </div>
             <div className="flex justify-between flex-1 hover:text-white">
