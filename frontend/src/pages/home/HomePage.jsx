@@ -1,6 +1,7 @@
 import Posts from "../../components/common/Posts";
 import CreatePost from "./CreatePost";
 import { useQuery } from "@tanstack/react-query";
+import EmbeddedChatbot from "../../hooks/EmbeddedChatBot";
 
 const HomePage = () => {
   const { data: authUser } = useQuery({ queryKey: ["authUser"] });
@@ -13,6 +14,7 @@ const HomePage = () => {
 
         {/* POSTS */}
         <Posts feedType={feedType} />
+        <EmbeddedChatbot />
       </div>
     </>
   );

@@ -9,6 +9,7 @@ import MessagePage from "./pages/messages/MessagePage";
 import { Toaster } from "react-hot-toast";
 import LoadingSpinner from "./components/common/LoadingSpinner";
 import { useQuery } from "@tanstack/react-query";
+// import EmbeddedChatbot from "./hooks/EmbeddedChatBot";
 
 function App() {
   const { data: authUser, isLoading } = useQuery({
@@ -70,7 +71,9 @@ function App() {
           path="/messages"
           element={authUser ? <MessagePage /> : <Navigate to="/login" />}
         ></Route>
+        {/* <EmbeddedChatbot /> */}
       </Routes>
+
       <Toaster />
     </div>
   );
