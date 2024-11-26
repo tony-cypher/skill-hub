@@ -9,7 +9,7 @@ const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       // avoids refreshing when tab is changed
-      refetchOnWindowFocus: true,
+      refetchOnWindowFocus: false,
     },
   },
 });

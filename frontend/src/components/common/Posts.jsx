@@ -1,6 +1,6 @@
+import { useEffect } from "react";
 import Post from "./Post";
 import PostSkeleton from "../skeletons/PostSkeleton";
-import { POSTS } from "../../utils/db/dummy";
 import { FaSearch } from "react-icons/fa";
 import { useQuery } from "@tanstack/react-query";
 
@@ -18,7 +18,12 @@ const Posts = ({ feedType, username }) => {
 
   const POST_ENDPOINT = getPostEndpoint();
 
-  const { data: posts, isLoading } = useQuery({
+  const {
+    data: posts,
+    isLoading,
+    refetch,
+    isRefetching,
+  } = useQuery({
     queryKey: ["posts"],
     queryFn: async () => {
       try {
@@ -36,19 +41,25 @@ const Posts = ({ feedType, username }) => {
     },
   });
 
+  // To refetch data when the feedType and username changes
+  useEffect(() => {
+    refetch();
+  }, [feedType, username, refetch]);
+
   return (
     <>
-      {isLoading && (
-        <div className="flex flex-col justify-center">
-          <PostSkeleton />
-          <PostSkeleton />
-          <PostSkeleton />
-        </div>
-      )}
-      {!isLoading && POSTS?.length === 0 && (
+      {isLoading ||
+        (isRefetching && (
+          <div className="flex flex-col justify-center">
+            <PostSkeleton />
+            <PostSkeleton />
+            <PostSkeleton />
+          </div>
+        ))}
+      {!isLoading && !isRefetching && posts?.length === 0 && (
         <p className="text-center my-4">No posts in this tab. Switch 👻</p>
       )}
-      {!isLoading && POSTS && (
+      {!isLoading && !isRefetching && posts && (
         <div>
           <div>
             <label className="input flex items-center gap-2 h-8 m-3 ml-auto w-1/3 border-none">
