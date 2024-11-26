@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-import { MdOutlineMail } from "react-icons/md";
+import { FaUser } from "react-icons/fa";
 import { MdPassword } from "react-icons/md";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 
@@ -56,7 +56,7 @@ const LoginPage = () => {
         <form className="flex gap-4 flex-col" onSubmit={handleSubmit}>
           <h1 className="text-4xl font-extrabold">SKILL HUB | LOGIN</h1>
           <label className="input input-bordered rounded flex items-center gap-2">
-            <MdOutlineMail />
+            <FaUser />
             <input
               type="text"
               className="grow"

@@ -7,7 +7,7 @@ import EditProfileModal from "./EditProfileModal";
 import useUpdateUserProfile from "../../hooks/useUpdateUserProfile";
 
 import { FaArrowLeft } from "react-icons/fa6";
-import { FaLink } from "react-icons/fa";
+import { MdOutlineMail } from "react-icons/md";
 import { MdEdit } from "react-icons/md";
 import { useQuery } from "@tanstack/react-query";
 
@@ -134,17 +134,17 @@ const ProfilePage = () => {
                 </div>
 
                 <div className="flex gap-2 flex-wrap">
-                  {user?.link && (
+                  {user?.email && (
                     <div className="flex gap-1 items-center ">
                       <>
-                        <FaLink className="w-3 h-3 text-slate-500" />
+                        <MdOutlineMail className="w-3 h-3 text-slate-500" />
                         <a
-                          href="https://youtube.com/@asaprogrammer_"
+                          href={`mailto:${user?.email}`}
                           target="_blank"
                           rel="noreferrer"
                           className="text-sm text-blue-500 hover:underline"
                         >
-                          youtube.com/@asaprogrammer_
+                          {user?.email}
                         </a>
                       </>
                     </div>
