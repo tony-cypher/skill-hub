@@ -4,12 +4,25 @@ import { POSTS } from "../../utils/db/dummy";
 import { FaSearch } from "react-icons/fa";
 import { useQuery } from "@tanstack/react-query";
 
-const Posts = () => {
+const Posts = ({ feedType, username }) => {
+  const getPostEndpoint = () => {
+    switch (feedType) {
+      case "forYou":
+        return "/api/posts/all";
+      case "posts":
+        return `/api/posts/user/${username}`;
+      default:
+        return "/api/posts/all";
+    }
+  };
+
+  const POST_ENDPOINT = getPostEndpoint();
+
   const { data: posts, isLoading } = useQuery({
     queryKey: ["posts"],
     queryFn: async () => {
       try {
-        const res = await fetch("/api/posts/all");
+        const res = await fetch(POST_ENDPOINT);
         const data = await res.json();
 
         if (!res.ok) {

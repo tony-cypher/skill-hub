@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 
 const HomePage = () => {
   const { data: authUser } = useQuery({ queryKey: ["authUser"] });
+  const feedType = "forYou";
   return (
     <>
       <div className="flex-[4_4_0] mr-auto border-r border-gray-700 min-h-screen">
@@ -11,7 +12,7 @@ const HomePage = () => {
         {authUser.type === "artisan" ? <CreatePost /> : <></>}
 
         {/* POSTS */}
-        <Posts />
+        <Posts feedType={feedType} />
       </div>
     </>
   );

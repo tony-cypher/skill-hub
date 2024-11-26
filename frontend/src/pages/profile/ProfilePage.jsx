@@ -1,5 +1,5 @@
-import { useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 
 import Posts from "../../components/common/Posts";
 import ProfileHeaderSkeleton from "../../components/skeletons/ProfileHeaderSkeleton";
@@ -10,36 +10,51 @@ import { POSTS } from "../../utils/db/dummy";
 import { FaArrowLeft } from "react-icons/fa6";
 import { FaLink } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
+import { useQuery } from "@tanstack/react-query";
 
 const ProfilePage = () => {
-  const [coverImg, setCoverImg] = useState(null);
   const [profileImg, setProfileImg] = useState(null);
   // const [feedType, setFeedType] = useState("posts");
   const profileImgRef = useRef(null);
+  const { username } = useParams();
+  const feedType = "posts";
 
-  const isLoading = false;
-  const isMyProfile = true;
+  const { data: authUser } = useQuery({ queryKey: ["authUser"] });
 
-  const user = {
-    _id: "1",
-    fullName: "John Doe",
-    username: "johndoe",
-    profileImg:
-      "https://res.cloudinary.com/dgk3ckyn1/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1731657958/cld-sample.jpg",
-    coverImg:
-      "https://res.cloudinary.com/dgk3ckyn1/image/upload/v1731657956/samples/balloons.jpg",
-    bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    link: "https://youtube.com/@asaprogrammer_",
-    following: ["1", "2", "3"],
-    followers: ["1", "2", "3"],
-  };
+  const {
+    data: user,
+    isLoading,
+    refetch,
+    isRefetching,
+  } = useQuery({
+    queryKey: ["userProfile"],
+    queryFn: async () => {
+      try {
+        const res = await fetch(`/api/users/profile/${username}`);
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.error);
+        }
+
+        return data;
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
+  });
+
+  const isMyProfile = authUser._id === user?._id;
+
+  useEffect(() => {
+    refetch();
+  }, [username, refetch]);
 
   const handleImgChange = (e, state) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        state === "coverImg" && setCoverImg(reader.result);
         state === "profileImg" && setProfileImg(reader.result);
       };
       reader.readAsDataURL(file);
@@ -50,19 +65,19 @@ const ProfilePage = () => {
     <>
       <div className="flex-[4_4_0]  border-r border-gray-700 min-h-screen ">
         {/* HEADER */}
-        {isLoading && <ProfileHeaderSkeleton />}
-        {!isLoading && !user && (
+        {isLoading || (isRefetching && <ProfileHeaderSkeleton />)}
+        {!isLoading && !isRefetching && !user && (
           <p className="text-center text-lg mt-4">User not found</p>
         )}
         <div className="flex flex-col">
-          {!isLoading && user && (
+          {!isLoading && !isRefetching && user && (
             <>
               <div className="flex gap-10 px-4 py-2 items-center">
                 <Link to="/">
                   <FaArrowLeft className="w-4 h-4" />
                 </Link>
                 <div className="flex flex-col">
-                  <p className="font-bold text-lg">{user?.fullName}</p>
+                  <p className="font-bold text-lg">{user?.fullname}</p>
                   <span className="text-sm text-slate-500">
                     {POSTS?.length} posts
                   </span>
@@ -83,7 +98,7 @@ const ProfilePage = () => {
                       src={
                         profileImg ||
                         user?.profileImg ||
-                        "/avatar-placeholder.png"
+                        "https://i.pinimg.com/736x/ff/5f/78/ff5f78476f0edf5b1bf7840f84342ebd.jpg"
                       }
                     />
                     <div className="absolute top-5 right-3 p-1 bg-indigo-400 rounded-full group-hover/avatar:opacity-100 opacity-0 cursor-pointer">
@@ -107,7 +122,7 @@ const ProfilePage = () => {
                     Follow
                   </button>
                 )}
-                {(coverImg || profileImg) && (
+                {profileImg && (
                   <button
                     className="btn btn-primary rounded-full btn-sm text-white px-4 ml-2"
                     onClick={() => alert("Profile updated successfully")}
@@ -119,7 +134,7 @@ const ProfilePage = () => {
 
               <div className="flex flex-col gap-4 mt-14 px-4">
                 <div className="flex flex-col">
-                  <span className="font-bold text-lg">{user?.fullName}</span>
+                  <span className="font-bold text-lg">{user?.fullname}</span>
                   <span className="text-sm text-slate-500">
                     @{user?.username}
                   </span>
@@ -143,27 +158,13 @@ const ProfilePage = () => {
                     </div>
                   )}
                 </div>
-                <div className="flex gap-2">
-                  <div className="flex gap-1 items-center">
-                    <span className="font-bold text-xs">
-                      {user?.following.length}
-                    </span>
-                    <span className="text-slate-500 text-xs">Following</span>
-                  </div>
-                  <div className="flex gap-1 items-center">
-                    <span className="font-bold text-xs">
-                      {user?.followers.length}
-                    </span>
-                    <span className="text-slate-500 text-xs">Followers</span>
-                  </div>
-                </div>
               </div>
               <div className="border-b border-gray-700 mt-4"></div>
             </>
           )}
 
           <div className="mt-6">
-            <Posts />
+            <Posts feedType={feedType} username={username} />
           </div>
         </div>
       </div>
