@@ -50,7 +50,7 @@ const Posts = ({ feedType, username }) => {
     <>
       {isLoading ||
         (isRefetching && (
-          <div className="flex flex-col justify-center">
+          <div className="flex flex-col justify-center bg-base-200">
             <PostSkeleton />
             <PostSkeleton />
             <PostSkeleton />

@@ -8,7 +8,7 @@ const HomePage = () => {
   const feedType = "forYou";
   return (
     <>
-      <div className="flex-[4_4_0] mr-auto border-r border-gray-700 min-h-screen">
+      <div className="flex-[4_4_0] mr-auto bg-base-300 min-h-screen">
         {/*  CREATE POST INPUT */}
         {authUser.type === "artisan" ? <CreatePost /> : <></>}
 

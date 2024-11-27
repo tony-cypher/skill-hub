@@ -27,11 +27,7 @@ const EmbeddedChatbot = () => {
     };
   }, []);
 
-  return (
-    <div>
-      <h1>Chatbot Embedded</h1>
-    </div>
-  );
+  return <div></div>;
 };
 
 export default EmbeddedChatbot;

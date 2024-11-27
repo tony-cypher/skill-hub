@@ -14,7 +14,7 @@ const Sidebar = () => {
   // Function to toggle the theme
   const [theme, setTheme] = useState("");
   const handleToggle = () => {
-    const newTheme = theme === "black" ? "light" : "black"; // Switch themes
+    const newTheme = theme === "cupcake" ? "sunset" : "cupcake"; // Switch themes
     setTheme(newTheme); // Update state
     document.documentElement.setAttribute("data-theme", newTheme); // Update HTML attribute
   };
@@ -48,10 +48,10 @@ const Sidebar = () => {
 
   return (
     <div className="md:flex-[2_2_0] w-18 max-w-52">
-      <div className="sticky top-0 left-0 h-screen flex flex-col border-r border-gray-700 w-20 md:w-full">
+      <div className="sticky top-0 left-0 h-screen flex flex-col w-20 md:w-full">
         <ul className="flex flex-col gap-3 mt-4">
-          <li className="justify-center md:justify-start">
-            <h1 className="ml-3 text-2xl font-bold">SKILL HUB</h1>
+          <li className="justify-center md:justify-start ">
+            <h1 className="ml-3 text-2xl font-bold ">SKILL HUB</h1>
           </li>
           <li className="flex justify-center md:justify-start mt-5">
             <Link
@@ -97,7 +97,7 @@ const Sidebar = () => {
                 <input
                   type="checkbox"
                   onChange={handleToggle}
-                  checked={theme === "black"}
+                  checked={theme === "sunset"}
                 />
                 <IoMoonOutline className="swap-off h-10 w-10 fill-current" />
                 <FiSun className="swap-on h-8 w-8 fill-current" />
