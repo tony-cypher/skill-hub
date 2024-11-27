@@ -58,6 +58,7 @@ const LoginPage = () => {
           <label className="input input-bordered rounded flex items-center gap-2">
             <FaUser />
             <input
+              required
               type="text"
               className="grow"
               placeholder="username"
@@ -70,6 +71,7 @@ const LoginPage = () => {
           <label className="input input-bordered rounded flex items-center gap-2">
             <MdPassword />
             <input
+              required
               type="password"
               className="grow"
               placeholder="Password"
