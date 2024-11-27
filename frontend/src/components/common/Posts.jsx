@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import Post from "./Post";
 import PostSkeleton from "../skeletons/PostSkeleton";
-import { FaSearch } from "react-icons/fa";
 import { useQuery } from "@tanstack/react-query";
 
 const Posts = ({ feedType, username }) => {
@@ -61,16 +60,6 @@ const Posts = ({ feedType, username }) => {
       )}
       {!isLoading && !isRefetching && posts && (
         <div>
-          <div>
-            <label className="input flex items-center gap-2 h-8 m-3 ml-auto w-1/3 border-none">
-              <input
-                type="text"
-                className="grow"
-                placeholder="Find by category"
-              />
-              <FaSearch />
-            </label>
-          </div>
           {posts.map((post) => (
             <Post key={post._id} post={post} />
           ))}
