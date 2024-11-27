@@ -124,31 +124,60 @@ const ProfilePage = () => {
                 )}
               </div>
 
-              <div className="flex flex-col gap-4 mt-14 px-4">
-                <div className="flex flex-col">
-                  <span className="font-bold text-lg">{user?.fullname}</span>
-                  <span className="text-sm text-slate-500">
-                    @{user?.username}
-                  </span>
-                  <span className="text-sm my-1">{user?.bio}</span>
-                </div>
+              <div className="flex flex-wrap">
+                <div className="flex flex-col gap-4 mt-14 px-4">
+                  <div className="flex flex-col">
+                    <span className="font-bold text-lg">{user?.fullname}</span>
+                    <span className="text-sm text-slate-500">
+                      @{user?.username}
+                    </span>
+                    <span className="text-sm my-1">{user?.bio}</span>
+                  </div>
 
-                <div className="flex gap-2 flex-wrap">
-                  {user?.email && (
-                    <div className="flex gap-1 items-center ">
-                      <>
-                        <MdOutlineMail className="w-3 h-3 text-slate-500" />
-                        <a
-                          href={`mailto:${user?.email}`}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="text-sm text-blue-500 hover:underline"
-                        >
-                          {user?.email}
-                        </a>
-                      </>
-                    </div>
-                  )}
+                  <div className="flex gap-2 flex-wrap">
+                    {user?.email && (
+                      <div className="flex gap-1 items-center ">
+                        <>
+                          <MdOutlineMail className="w-3 h-3 text-slate-500" />
+                          <a
+                            href={`mailto:${user?.email}`}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="text-sm text-blue-500 hover:underline"
+                          >
+                            {user?.email}
+                          </a>
+                        </>
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <div className="flex flex-col gap-4 mt-14 px-4">
+                  <div className="flex flex-col">
+                    <span className="font-bold text-lg">{user?.fullname}</span>
+                    <span className="text-sm text-slate-500">
+                      @{user?.username}
+                    </span>
+                    <span className="text-sm my-1">{user?.bio}</span>
+                  </div>
+
+                  <div className="flex gap-2 flex-wrap">
+                    {user?.email && (
+                      <div className="flex gap-1 items-center ">
+                        <>
+                          <MdOutlineMail className="w-3 h-3 text-slate-500" />
+                          <a
+                            href={`mailto:${user?.email}`}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="text-sm text-blue-500 hover:underline"
+                          >
+                            {user?.email}
+                          </a>
+                        </>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
               <div className="border-b border-gray-700 mt-4"></div>
