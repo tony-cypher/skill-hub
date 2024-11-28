@@ -80,7 +80,7 @@ const ProfilePage = () => {
                   <p className="font-bold text-lg">{user?.fullname}</p>
                 </div>
               </div>
-              {/* COVER IMG */}
+              {/* PROFILE IMG */}
               <div className="relative group/cover mt-20">
                 <input
                   type="file"
@@ -124,60 +124,56 @@ const ProfilePage = () => {
                 )}
               </div>
 
-              <div className="flex flex-wrap">
+              <div className="flex flex-row">
                 <div className="flex flex-col gap-4 mt-14 px-4">
                   <div className="flex flex-col">
                     <span className="font-bold text-lg">{user?.fullname}</span>
                     <span className="text-sm text-slate-500">
                       @{user?.username}
                     </span>
-                    <span className="text-sm my-1">{user?.bio}</span>
-                  </div>
-
-                  <div className="flex gap-2 flex-wrap">
-                    {user?.email && (
-                      <div className="flex gap-1 items-center ">
-                        <>
-                          <MdOutlineMail className="w-3 h-3 text-slate-500" />
-                          <a
-                            href={`mailto:${user?.email}`}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="text-sm text-blue-500 hover:underline"
-                          >
-                            {user?.email}
-                          </a>
-                        </>
-                      </div>
-                    )}
+                    <span className="text-sm my-1">
+                      {user?.type.toUpperCase()}
+                    </span>
+                    <span className="text-sm my-1">
+                      {user?.phone || "08012345678"}
+                    </span>
                   </div>
                 </div>
                 <div className="flex flex-col gap-4 mt-14 px-4">
                   <div className="flex flex-col">
-                    <span className="font-bold text-lg">{user?.fullname}</span>
-                    <span className="text-sm text-slate-500">
-                      @{user?.username}
+                    <span className="text-sm my-1">
+                      {user?.work || "work: N/A"}
                     </span>
-                    <span className="text-sm my-1">{user?.bio}</span>
+                    <span className="text-sm my-1">
+                      {user?.state || "state: N/A"}
+                    </span>
+                    <span className="text-sm my-1">
+                      {user?.lga || "lga: N/A"}
+                    </span>
                   </div>
-
-                  <div className="flex gap-2 flex-wrap">
-                    {user?.email && (
-                      <div className="flex gap-1 items-center ">
-                        <>
-                          <MdOutlineMail className="w-3 h-3 text-slate-500" />
-                          <a
-                            href={`mailto:${user?.email}`}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="text-sm text-blue-500 hover:underline"
-                          >
-                            {user?.email}
-                          </a>
-                        </>
-                      </div>
-                    )}
-                  </div>
+                </div>
+              </div>
+              <div className="flex flex-wrap">
+                <span className="text-sm my-1">{user?.bio || "bio: N/A"}</span>
+                <span className="text-sm my-1">
+                  {user?.services || "service: N/A"}
+                </span>
+                <div className="flex gap-2 flex-wrap">
+                  {user?.email && (
+                    <div className="flex gap-1 items-center ">
+                      <>
+                        <MdOutlineMail className="w-3 h-3 text-slate-500" />
+                        <a
+                          href={`mailto:${user?.email}`}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-sm text-blue-500 hover:underline"
+                        >
+                          {user?.email}
+                        </a>
+                      </>
+                    </div>
+                  )}
                 </div>
               </div>
               <div className="border-b border-gray-700 mt-4"></div>
