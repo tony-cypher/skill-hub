@@ -9,6 +9,12 @@ const EditProfileModal = () => {
     fullname: "",
     email: "",
     bio: "",
+    city: "",
+    lga: "",
+    state: "",
+    phone: "",
+    work: "",
+    service: "",
     newPassword: "",
     currentPassword: "",
   });
@@ -23,6 +29,12 @@ const EditProfileModal = () => {
         fullname: authUser.fullname,
         email: authUser.email,
         bio: authUser.bio,
+        city: authUser.city,
+        lga: authUser.lga,
+        state: authUser.state,
+        phone: authUser.phone,
+        work: authUser.work,
+        service: authUser.service,
         newPassword: "",
         currentPassword: "",
       });
@@ -81,6 +93,59 @@ const EditProfileModal = () => {
                 className="flex-1 input border border-gray-700 rounded p-2 input-md"
                 value={formData.bio}
                 name="bio"
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <input
+                type="text"
+                placeholder="State"
+                className="flex-1 input border border-gray-700 rounded p-2 input-md"
+                value={formData.state}
+                name="state"
+                onChange={handleInputChange}
+              />
+              <input
+                type="text"
+                placeholder="Local Govt"
+                className="flex-1 input border border-gray-700 rounded p-2 input-md"
+                value={formData.lga}
+                name="lga"
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <input
+                type="text"
+                placeholder="City"
+                className="flex-1 input border border-gray-700 rounded p-2 input-md"
+                value={formData.city}
+                name="city"
+                onChange={handleInputChange}
+              />
+              <input
+                type="text"
+                placeholder="Phone"
+                className="flex-1 input border border-gray-700 rounded p-2 input-md"
+                value={formData.phone}
+                name="phone"
+                onChange={handleInputChange}
+              />
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <input
+                type="text"
+                placeholder="WORK"
+                className="flex-1 input border border-gray-700 rounded p-2 input-md"
+                value={formData.work}
+                name="work"
+                onChange={handleInputChange}
+              />
+              <textarea
+                placeholder="Service"
+                className="flex-1 input border border-gray-700 rounded p-2 input-md"
+                value={formData.service}
+                name="service"
                 onChange={handleInputChange}
               />
             </div>

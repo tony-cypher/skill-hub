@@ -48,6 +48,30 @@ const userSchema = new mongoose.Schema(
         default: [],
       },
     ],
+    city: {
+      type: String,
+      default: "",
+    },
+    lga: {
+      type: String,
+      default: "",
+    },
+    state: {
+      type: String,
+      default: "",
+    },
+    phone: {
+      type: String,
+      default: "",
+    },
+    work: {
+      type: String,
+      default: "",
+    },
+    service: {
+      type: String,
+      default: "",
+    },
   },
   { timestamps: true }
 );

@@ -7,7 +7,15 @@ import toast from "react-hot-toast";
 
 const HomePage = () => {
   const [selectedSkill, setSelectedSkill] = useState("");
-  const skills = ["Electrician", "Plumber", "Mechanic", "Carpenter"];
+  const skills = [
+    "Electrician",
+    "Plumber",
+    "Mechanic",
+    "Carpenter",
+    "Phone/Laptop repair",
+    "chef",
+    "Fashion designer",
+  ];
   const { data: authUser } = useQuery({ queryKey: ["authUser"] });
   const feedType = "forYou";
   const handleSkillSubmit = () => {

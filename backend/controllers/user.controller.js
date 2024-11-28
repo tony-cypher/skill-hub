@@ -18,7 +18,19 @@ export const getUserProfile = async (req, res) => {
 };
 
 export const updateUser = async (req, res) => {
-  const { fullname, email, currentPassword, newPassword, bio } = req.body;
+  const {
+    fullname,
+    email,
+    currentPassword,
+    newPassword,
+    bio,
+    city,
+    lga,
+    state,
+    phone,
+    work,
+    service,
+  } = req.body;
   let { profileImg } = req.body;
 
   // gets the user's id
@@ -67,6 +79,12 @@ export const updateUser = async (req, res) => {
     user.email = email || user.email;
     user.bio = bio || user.bio;
     user.profileImg = profileImg || user.profileImg;
+    user.city = city || user.city;
+    user.lga = lga || user.lga;
+    user.state = state || user.state;
+    user.phone = phone || user.phone;
+    user.work = work || user.work;
+    user.service = service || user.service;
 
     user = await user.save();
 
