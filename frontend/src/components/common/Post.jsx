@@ -2,6 +2,8 @@ import { FaRegComment } from "react-icons/fa";
 import { FaRegHeart } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa";
+import { FaPencilAlt } from "react-icons/fa";
+import { IoCloseSharp } from "react-icons/io5";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -21,6 +23,42 @@ const Post = ({ post }) => {
   const isMyPost = authUser._id === post.user._id;
 
   const formattedDate = formatPostDate(post.createdAt);
+
+  // update post
+  const [text, setText] = useState("");
+  const [work, setWork] = useState("");
+
+  const { mutate: updatePost } = useMutation({
+    mutationFn: async ({ text, work }) => {
+      try {
+        const res = await fetch(`/api/posts/update/${post._id}`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text, work }),
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+          console.log(data.error);
+          throw new Error(data.error || "Something went wrong");
+        }
+
+        return data;
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
+
+    onSuccess: () => {
+      // reset the form state
+      toast.success("Post updated successfully");
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+    },
+  });
+
+  const handleUpdatePost = () => {
+    updatePost({ text, work });
+  };
 
   // like function
   const { mutate: likePost, isPending: isLiking } = useMutation({
@@ -161,15 +199,62 @@ const Post = ({ post }) => {
               </span>
             </span>
             {isMyPost && (
-              <span className="flex justify-end flex-1">
-                {!isDeleting && (
-                  <FaTrash
-                    className="cursor-pointer hover:text-red-500"
-                    onClick={handleDeletePost}
-                  />
-                )}
-                {isDeleting && <LoadingSpinner size="sm" />}
-              </span>
+              <div className="flex justify-end flex-1">
+                <span>
+                  <button className="mr-5">
+                    <FaPencilAlt
+                      className="cursor-pointer hover:text-purple-500"
+                      onClick={() =>
+                        document.getElementById(post._id).showModal()
+                      }
+                    />
+                  </button>
+                  <dialog id={post._id} className="modal">
+                    <div className="modal-box">
+                      <h3 className="font-bold text-lg text-center mb-3">
+                        Update Post
+                      </h3>
+                      <input
+                        type="text"
+                        placeholder={post.text}
+                        className="input input-bordered w-full max-w-sm"
+                        name="text"
+                        value={text}
+                        onChange={(e) => setText(e.target.value)}
+                      />
+                      <input
+                        type="text"
+                        placeholder={post.work || "update work"}
+                        className="input input-bordered w-full max-w-sm mt-2"
+                        name="work"
+                        value={work}
+                        onChange={(e) => setWork(e.target.value)}
+                      />
+
+                      <form method="dialog">
+                        <button
+                          className="btn btn-success ml-3 mt-3"
+                          onClick={handleUpdatePost}
+                        >
+                          Update Post
+                        </button>
+                      </form>
+                    </div>
+                    <form method="dialog" className="modal-backdrop">
+                      <button>close</button>
+                    </form>
+                  </dialog>
+                </span>
+                <span>
+                  {!isDeleting && (
+                    <FaTrash
+                      className="cursor-pointer hover:text-red-500"
+                      onClick={handleDeletePost}
+                    />
+                  )}
+                  {isDeleting && <LoadingSpinner size="sm" />}
+                </span>
+              </div>
             )}
           </div>
           <div className="flex flex-col gap-3 overflow-hidden">
