@@ -156,6 +156,9 @@ const Post = ({ post }) => {
               </Link>
               <span>·</span>
               <span>{formattedDate}</span>
+              <span>
+                <b>{post.work}</b>
+              </span>
             </span>
             {isMyPost && (
               <span className="flex justify-end flex-1">

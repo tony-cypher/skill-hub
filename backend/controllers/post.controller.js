@@ -36,6 +36,7 @@ export const createPost = async (req, res) => {
       user: userId,
       text,
       img,
+      work: req.user.work,
     });
 
     // saves the new post to db

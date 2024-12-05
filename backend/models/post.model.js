@@ -13,6 +13,10 @@ const postSchema = new mongoose.Schema(
     img: {
       type: String,
     },
+    work: {
+      type: String,
+      default: "",
+    },
     likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User", default: [] }],
     comments: [
       {
