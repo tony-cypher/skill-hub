@@ -50,6 +50,47 @@ export const createPost = async (req, res) => {
   }
 };
 
+export const updatePost = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { text, work, img } = req.body;
+
+    const userId = req.user._id;
+
+    let post = await Post.findById(id);
+    if (!post) {
+      return res.status(404).json({ message: "Post does not exist" });
+    }
+
+    if (userId.toString() !== post.user.toString()) {
+      return res
+        .status(401)
+        .json({ message: "You are not authorized to update this post" });
+    }
+
+    if (img) {
+      if (post.img) {
+        await cloudinary.uploader.destroy(
+          post.img.split("/").pop().split("."[0])
+        );
+      }
+
+      const uploadedResponse = await cloudinary.uploader.upload(img);
+      img = uploadedResponse.secure_url;
+    }
+
+    post.text = text || post.text;
+    post.work = work || post.work;
+    post.img = img || post.img;
+
+    post = await post.save();
+    return res.status(200).json(post);
+  } catch (error) {
+    console.log("Error in updatePostController: ", error.message);
+    res.status(500).json({ error: error.message });
+  }
+};
+
 export const getAllPosts = async (req, res) => {
   try {
     const posts = await Post.find()
