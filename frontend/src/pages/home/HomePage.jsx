@@ -2,8 +2,6 @@ import { useState } from "react";
 import Posts from "../../components/common/Posts";
 import CreatePost from "./CreatePost";
 import { useQuery } from "@tanstack/react-query";
-import { FaSearch } from "react-icons/fa";
-import toast from "react-hot-toast";
 
 const HomePage = () => {
   const { data: category } = useQuery({
@@ -59,9 +57,6 @@ const HomePage = () => {
               <option>loading...</option>
             )}
           </select>
-          <button className="btn btn-ghost">
-            <FaSearch />
-          </button>
         </div>
         {/* POSTS */}
         <Posts feedType={feedType} category={selectedSkill.toLowerCase()} />
