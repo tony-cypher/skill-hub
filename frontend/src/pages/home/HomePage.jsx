@@ -6,17 +6,32 @@ import { FaSearch } from "react-icons/fa";
 import toast from "react-hot-toast";
 
 const HomePage = () => {
+  const { data: category } = useQuery({
+    queryKey: ["category"],
+    queryFn: async () => {
+      try {
+        const res = await fetch("/api/posts/category");
+        const data = res.json();
+
+        if (data.error) {
+          console.log("data error", data);
+        }
+
+        if (!res.ok) {
+          throw new Error("Something went wrong!");
+        }
+
+        return data;
+      } catch (error) {
+        throw new Error(error);
+      }
+    },
+  });
+
   const [selectedSkill, setSelectedSkill] = useState("");
-  const skills = [
-    "Electrician",
-    "Plumber",
-    "Mechanic",
-    "Carpenter",
-    "Phone/Laptop repair",
-    "chef",
-    "Fashion designer",
-  ];
+
   const { data: authUser } = useQuery({ queryKey: ["authUser"] });
+
   const feedType = "forYou";
   const handleSkillSubmit = () => {
     if (selectedSkill) {
@@ -38,11 +53,15 @@ const HomePage = () => {
             <option value="" disabled>
               Find by category
             </option>
-            {skills.map((skill) => (
-              <option key={skill} value={skill}>
-                {skill}
-              </option>
-            ))}
+            {category ? (
+              category.map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
+              ))
+            ) : (
+              <option>loading...</option>
+            )}
           </select>
           <button className="btn btn-ghost" onClick={handleSkillSubmit}>
             <FaSearch />
