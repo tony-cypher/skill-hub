@@ -29,17 +29,10 @@ const HomePage = () => {
   });
 
   const [selectedSkill, setSelectedSkill] = useState("");
+  const [feedType, setFeedType] = useState("forYou");
 
   const { data: authUser } = useQuery({ queryKey: ["authUser"] });
 
-  const feedType = "forYou";
-  const handleSkillSubmit = () => {
-    if (selectedSkill) {
-      alert(`You selected: ${selectedSkill.toLowerCase()}`);
-    } else {
-      toast.error("Please select a skill!");
-    }
-  };
   return (
     <>
       <div className="flex-[4_4_0] mr-auto bg-base-300 min-h-screen">
@@ -48,7 +41,10 @@ const HomePage = () => {
         <div className="flex flex-row gap-4 mr-auto mt-3 mb-2 ml-5">
           <select
             className="select select-bordered w-full sm:w-1/3 md:w-1/4"
-            onChange={(e) => setSelectedSkill(e.target.value)}
+            onChange={(e) => {
+              setFeedType("search");
+              setSelectedSkill(e.target.value);
+            }}
           >
             <option value="" disabled>
               Find by category
@@ -63,12 +59,12 @@ const HomePage = () => {
               <option>loading...</option>
             )}
           </select>
-          <button className="btn btn-ghost" onClick={handleSkillSubmit}>
+          <button className="btn btn-ghost">
             <FaSearch />
           </button>
         </div>
         {/* POSTS */}
-        <Posts feedType={feedType} />
+        <Posts feedType={feedType} category={selectedSkill.toLowerCase()} />
       </div>
     </>
   );

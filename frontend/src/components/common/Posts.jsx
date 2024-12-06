@@ -3,13 +3,15 @@ import Post from "./Post";
 import PostSkeleton from "../skeletons/PostSkeleton";
 import { useQuery } from "@tanstack/react-query";
 
-const Posts = ({ feedType, username }) => {
+const Posts = ({ feedType, username, category }) => {
   const getPostEndpoint = () => {
     switch (feedType) {
       case "forYou":
         return "/api/posts/all";
       case "posts":
         return `/api/posts/user/${username}`;
+      case "search":
+        return `/api/posts/category/${category}`;
       default:
         return "/api/posts/all";
     }
@@ -43,7 +45,7 @@ const Posts = ({ feedType, username }) => {
   // To refetch data when the feedType and username changes
   useEffect(() => {
     refetch();
-  }, [feedType, username, refetch]);
+  }, [feedType, username, category, refetch]);
 
   return (
     <>
