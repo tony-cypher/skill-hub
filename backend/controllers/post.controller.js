@@ -36,7 +36,7 @@ export const createPost = async (req, res) => {
       user: userId,
       text,
       img,
-      work: req.user.work,
+      work: req.user.work.toLowerCase(),
     });
 
     // saves the new post to db
@@ -80,7 +80,7 @@ export const updatePost = async (req, res) => {
     }
 
     post.text = text || post.text;
-    post.work = work || post.work;
+    post.work = work.toLowerCase() || post.work;
     post.img = img || post.img;
 
     post = await post.save();
@@ -159,6 +159,22 @@ export const getUserPosts = async (req, res) => {
     res.status(200).json(posts);
   } catch (error) {
     console.log("Error in getUserPosts controller: ", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+export const getCategoryPosts = async (req, res) => {
+  try {
+    const { category } = req.params;
+
+    const posts = await Post.find({ work: category })
+      .sort({ createdAt: -1 })
+      .populate({ path: "user", select: "-password" })
+      .populate({ path: "comments.user", select: "-password" });
+
+    res.status(200).json(posts);
+  } catch (error) {
+    console.log("Error in getCategoryPosts controller: ", error);
     res.status(500).json({ error: "Internal server error" });
   }
 };

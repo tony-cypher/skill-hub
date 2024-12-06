@@ -10,6 +10,7 @@ import {
   deletePost,
   updatePost,
   getCategory,
+  getCategoryPosts,
 } from "../controllers/post.controller.js";
 
 const router = express.Router();
@@ -17,6 +18,7 @@ const router = express.Router();
 router.get("/all", protectRoute, getAllPosts); // get all posts
 router.get("/category", protectRoute, getCategory);
 router.get("/user/:username", protectRoute, getUserPosts); // get artisan's posts
+router.get("/category/:category", protectRoute, getCategoryPosts);
 router.post("/create", protectRoute, createPost); // create post (artisans only)
 router.post("/update/:id", protectRoute, updatePost);
 router.post("/worked/:id", protectRoute, workedFor); // gets artisans customers
