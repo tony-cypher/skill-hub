@@ -115,6 +115,32 @@ export const getAllPosts = async (req, res) => {
   }
 };
 
+export const getCategory = async (req, res) => {
+  try {
+    const posts = await Post.find().sort({ createdAt: -1 });
+
+    if (posts.length === 0) {
+      return res.status(200).json([]);
+    }
+
+    var category = [];
+
+    posts.forEach((post) => {
+      if (
+        post.work.toLowerCase() &&
+        !category.includes(post.work.toLowerCase())
+      ) {
+        category.push(post.work.toLowerCase());
+      }
+    });
+
+    res.status(200).json(category);
+  } catch (error) {
+    console.log("Error in getCtegory controller: ", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 export const getUserPosts = async (req, res) => {
   try {
     const { username } = req.params;
